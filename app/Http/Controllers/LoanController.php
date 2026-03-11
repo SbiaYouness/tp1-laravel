@@ -31,10 +31,10 @@ class LoanController extends Controller
             'borrower_name' => 'required|string|max:255',
             'borrower_email' => 'required|email|max:255',
             'book_title' => 'required|string|max:255',
-            'borrowed_at' => 'nullable|date',
-            'due_date' => 'nullable|date|after:borrowed_at',
-            'returned' => 'sometimes|boolean',
-            'status' => 'sometimes|in:active,returned,overdue',
+            'borrowed_at' => 'required|date',
+            'due_date' => 'required|date|after:borrowed_at',
+            'returned' => 'required|boolean',
+            'status' => 'required|in:active,returned,overdue',
         ]);
 
         $loan = Loan::create($validated);
@@ -79,9 +79,9 @@ class LoanController extends Controller
         }
 
         $validated = $request->validate([
-            'borrower_name' => 'required|string|max:255',
-            'borrower_email' => 'required|email|max:255',
-            'book_title' => 'required|string|max:255',
+            'borrower_name' => 'sometimes|string|max:255',
+            'borrower_email' => 'sometimes|email|max:255',
+            'book_title' => 'sometimes|string|max:255',
             'borrowed_at' => 'sometimes|date',
             'due_date' => 'sometimes|date|after:borrowed_at',
             'returned' => 'sometimes|boolean',
