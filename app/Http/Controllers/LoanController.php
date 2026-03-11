@@ -18,7 +18,7 @@ class LoanController extends Controller
             'data' => $loans,
             'message' => 'Loans retrieved successfully',
             'count' => $loans->count(),
-        ], 200);    
+        ], 200);
     }
 
     /**
@@ -34,16 +34,8 @@ class LoanController extends Controller
             'borrowed_at' => 'nullable|date',
             'due_date' => 'nullable|date|after:borrowed_at',
             'returned' => 'sometimes|boolean',
-            'status' => 'sometimes|in:active,returned,overdue',  
+            'status' => 'sometimes|in:active,returned,overdue',
         ]);
-
-        // Convert ISO 8601 to MySQL DATETIME format if present
-        if (isset($validated['borrowed_at'])) {
-            $validated['borrowed_at'] = date('Y-m-d H:i:s', strtotime($validated['borrowed_at']));
-        }
-        if (isset($validated['due_date'])) {
-            $validated['due_date'] = date('Y-m-d H:i:s', strtotime($validated['due_date']));
-        }
 
         $loan = Loan::create($validated);
 
@@ -87,13 +79,13 @@ class LoanController extends Controller
         }
 
         $validated = $request->validate([
-            'borrower_name' => 'sometimes|string|max:255',
-            'borrower_email' => 'sometimes|email|max:255',
-            'book_title' => 'sometimes|string|max:255',
+            'borrower_name' => 'required|string|max:255',
+            'borrower_email' => 'required|email|max:255',
+            'book_title' => 'required|string|max:255',
             'borrowed_at' => 'sometimes|date',
             'due_date' => 'sometimes|date|after:borrowed_at',
             'returned' => 'sometimes|boolean',
-            'status' => 'sometimes|in:active,returned,overdue',  
+            'status' => 'sometimes|in:active,returned,overdue'
         ]);
 
         $loan->update($validated);
@@ -124,11 +116,11 @@ class LoanController extends Controller
         ], 204);
     }
 
-        public function patched(string $id)
+    public function patched(string $id)
     {
         $loan = Loan::find($id);
 
-        if (!$loan){
+        if (!$loan) {
             return response()->json([
                 'message' => 'Loan not found',
             ], 404);
@@ -140,7 +132,6 @@ class LoanController extends Controller
         return response()->json([
             'data'  => $loan,
             'message' => 'Loan marked as returned'
-        ], 200);  
+        ], 200);
     }
-
 }
