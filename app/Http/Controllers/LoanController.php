@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoanRequest;
 use Illuminate\Http\Request;
 use App\models\Loan;
 
@@ -12,7 +13,7 @@ class LoanController extends Controller
      */
     public function index()
     {
-        $loans = Loan::all();
+        $loans = Loan::paginate(5);
 
         return response()->json([
             'data' => $loans,
@@ -24,20 +25,9 @@ class LoanController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(LoanRequest $request)
     {
-
-        $validated = $request->validate([
-            'borrower_name' => 'required|string|max:255',
-            'borrower_email' => 'required|email|max:255',
-            'book_title' => 'required|string|max:255',
-            'borrowed_at' => 'required|date',
-            'due_date' => 'required|date|after:borrowed_at',
-            'returned' => 'required|boolean',
-            'status' => 'required|in:active,returned,overdue',
-        ]);
-
-        $loan = Loan::create($validated);
+        $loan = Loan::create($request->validated());
 
         return response()->json([
             'data' => $loan,
