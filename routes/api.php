@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\Route;
 // Une seule ligne génère les 5 routes CRUD 
 // Route::apiResource('products', ProductController::class); 
 
-Route::get('/products',[ProductController::class,'index']);
-Route::post('/products',[ProductController::class,'store']);
+// Route::get('/products',[ProductController::class,'index']);
+// Route::post('/products',[ProductController::class,'store']);
 
 // Route::get('/todos',[TodoController::class,'index']);
 // Route::post('/todos',[TodoController::class,'store']);
@@ -17,12 +17,13 @@ Route::post('/products',[ProductController::class,'store']);
 // Route::put('/todos/{id}',[TodoController::class,'update']);
 // Route::delete('/todos/{id}',[TodoController::class,'destroy']);
 
-Route::apiResource('todos', TodoController::class);
+// Route::apiResource('todos', TodoController::class);
 
-Route::patch('/todos/{id}/complete',[TodoController::class,'patched']);
+// Route::patch('/todos/{id}/complete',[TodoController::class,'patched']);
 
 Route::apiResource('loans', LoanController::class);
 Route::patch('/loans/{id}/return',[LoanController::class,'patched']);
+
 // Route::post('/loans',[LoanController::class,'store']);
 
 // Équivaut à : 
